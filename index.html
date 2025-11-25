@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Pikachu Power Pokédex</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html">
+      <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+           style="width:72px;height:auto;cursor:pointer;">
+    </a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="pokemon.html">Pokédex</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+  <button id="toggleDark">🌙 Dark Mode</button>
+</nav>
+
+<script src="js/theme.js"></script>
+
+<!-- HERO -->
+<div class="container">
+  <div style="text-align:center;">
+    <h1>Welcome, Trainer! ⚡</h1>
+    <p>Jelajahi dunia Pokémon & temukan partner terbaikmu! 🌈</p>
+  </div>
+
+  <!-- SLIDER -->
+  <div id="slider" style="display:flex;justify-content:center;flex-wrap:wrap;gap:18px;margin:25px 0;padding-bottom:10px;">
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
+      <h3>Pikachu ⚡</h3>
+    </div>
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png">
+      <h3>Charmander 🔥</h3>
+    </div>
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png">
+      <h3>Squirtle 💧</h3>
+    </div>
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
+      <h3>Bulbasaur 🍃</h3>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <a href="pokemon.html"><button>Explore Pokédex 🔍</button></a>
+  </div>
+
+  <br><br>
+
+  <!-- FACTS -->
+  <h2>Did You Know? 🤩</h2>
+  <div class="grid">
+    <div class="card"><h4>1,015+ Pokémon ada saat ini! 🧩</h4></div>
+    <div class="card"><h4>9 Generasi Pokémon telah rilis! 🎮</h4></div>
+    <div class="card"><h4>Pokémon API menyediakan data lengkap ❤️</h4></div>
+  </div>
+
+  <br><br>
+
+  <!-- GENERATIONS -->
+  <h2>Pokémon Generations 🌍</h2>
+  <div class="grid">
+    <div class="card">Gen 1 - Kanto</div>
+    <div class="card">Gen 2 - Johto</div>
+    <div class="card">Gen 3 - Hoenn</div>
+    <div class="card">Gen 4 - Sinnoh</div>
+    <div class="card">Gen 5 - Unova</div>
+    <div class="card">Gen 6 - Kalos</div>
+    <div class="card">Gen 7 - Alola</div>
+    <div class="card">Gen 8 - Galar</div>
+    <div class="card">Gen 9 - Paldea</div>
+  </div>
+
+</div>
+
+</body>
+</html>
