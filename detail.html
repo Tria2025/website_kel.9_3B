@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detail</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html">
+        <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+             style="width:72px;height:auto;cursor:pointer;">
+      </a>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="pokedex.html">Pokedex</a>
+        <a href="about.html">About</a>
+      </div>
+      <button id="toggleDark" aria-pressed="false">Dark</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="detail-container">
+      <div class="detail-card">
+        <div>
+          <img id="detailImage" class="detail-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="pokemon" />
+          <div style="text-align:center; margin-top:12px;">
+            <button class="back-btn" onclick="history.back()">Kembali</button>
+          </div>
+        </div>
+
+        <div class="detail-info">
+          <h2 id="detailName">Pikachu</h2>
+          <div id="detailMeta" class="detail-meta">Type: Electric • Height: 0.4 m • Weight: 6 kg</div>
+
+          <div class="stats">
+            <canvas id="statsChart" class="stats-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ambil nama/id dari query string: ?name=bulbasaur atau ?id=25
+    const params = new URLSearchParams(location.search);
+    const pokeIdOrName = params.get('name') || params.get('id') || 'pikachu';
+
+    const imgEl = document.getElementById('detailImage');
+    const nameEl = document.getElementById('detailName');
+    const metaEl = document.getElementById('detailMeta');
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    let statsChart = null;
+
+    async function loadPokemon(idOrName) {
+      try {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(idOrName.toLowerCase())}`);
+        if (!res.ok) throw new Error('Pokémon tidak ditemukan');
+        const p = await res.json();
+
+        // gambar official-artwork (fallback jika null)
+        const artwork = p.sprites?.other?.['official-artwork']?.front_default
+                      || p.sprites?.front_default
+                      || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`;
+
+        imgEl.src = artwork;
+        imgEl.alt = p.name;
+        nameEl.textContent = capitalize(p.name);
+        metaEl.textContent = `Type: ${p.types.map(t=>capitalize(t.type.name)).join(', ')} • Height: ${p.height/10} m • Weight: ${p.weight/10} kg`;
+
+        const labels = p.stats.map(s => statLabel(s.stat.name));
+        const values = p.stats.map(s => s.base_stat);
+
+        // buat / update chart
+        if (statsChart) statsChart.destroy();
+        statsChart = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Base Stats',
+              data: values,
+              backgroundColor: 'rgba(53,120,255,0.14)',
+              borderColor: 'rgba(53,120,255,0.95)',
+              pointBackgroundColor: 'rgba(53,120,255,0.95)',
+              pointRadius: 4,
+              borderWidth: 2
+            }]
+          },
+          options: {
+            scales: {
+              r: {
+                beginAtZero: true,
+                suggestedMax: Math.max(100, Math.max(...values) + 20),
+                ticks: { backdropColor: 'transparent', color: getComputedStyle(document.documentElement).getPropertyValue('--text') || '#111' }
+              }
+            },
+            plugins: { legend: { display: false } },
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+
+      } catch (err) {
+        console.error(err);
+        nameEl.textContent = 'Tidak ditemukan';
+        metaEl.textContent = '';
+        imgEl.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
+      }
+    }
+
+    function capitalize(s){ return s?.charAt(0).toUpperCase()+s?.slice(1) || s; }
+    function statLabel(apiName){
+      // mapping singkat supaya label jadi familiar
+      return ({
+        'hp':'HP','attack':'Attack','defense':'Defense',
+        'special-attack':'Sp. Atk','special-defense':'Sp. Def','speed':'Speed'
+      })[apiName] || capitalize(apiName);
+    }
+
+    // muat data
+    loadPokemon(pokeIdOrName);
+
+    // DARK toggle (tetap gunakan code Anda sebelumnya)...
+    (function () {
+      const btn = document.getElementById('toggleDark');
+      const themeKey = 'theme';
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          btn.textContent = 'Light';
+          btn.setAttribute('aria-pressed', 'true');
+        } else {
+          document.documentElement.classList.remove('dark');
+          btn.textContent = 'Dark';
+          btn.setAttribute('aria-pressed', 'false');
+        }
+      }
+      const stored = localStorage.getItem(themeKey);
+      if (stored) applyTheme(stored);
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      btn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        const newTheme = isDark ? 'dark' : 'light';
+        localStorage.setItem(themeKey, newTheme);
+        applyTheme(newTheme);
+      });
+      window.addEventListener('storage', (e) => { if (e.key === themeKey) applyTheme(e.newValue || 'light'); });
+    })();
+  </script>
+</body>
+</html>
