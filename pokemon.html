@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokédex - Pikachu Power</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html">
+      <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+           style="width:72px;height:auto;cursor:pointer;">
+    </a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="pokemon.html">Pokédex</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+  <button id="toggleDark">🌙 Dark Mode</button>
+</nav>
+
+<script src="js/theme.js"></script>
+
+<div class="container">
+
+  <h2>Pokédex 📚</h2>
+  <p>Cari Pokémon favoritmu! ⚡</p>
+
+  <!-- SEARCH + FILTER -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;">
+    <input id="search" placeholder="Search Pokémon (ex: pikachu)" onkeyup="filterPokemon()" 
+           style="padding:12px;border-radius:12px;border:none;font-weight:600;">
+
+    <select id="typeFilter" onchange="filterByType(this.value)" 
+      style="padding:12px;border-radius:12px;border:none;font-weight:600;">
+      <option value="all">All Types</option>
+      <option value="fire">Fire 🔥</option>
+      <option value="water">Water 💧</option>
+      <option value="grass">Grass 🌱</option>
+      <option value="electric">Electric ⚡</option>
+      <option value="bug">Bug 🐛</option>
+      <option value="normal">Normal 🤍</option>
+      <option value="poison">Poison ☠️</option>
+      <option value="fairy">Fairy ✨</option>
+      <option value="psychic">Psychic 🔮</option>
+      <option value="rock">Rock ⛰️</option>
+      <option value="ground">Ground 🏜️</option>
+      <option value="ice">Ice ❄️</option>
+      <option value="dragon">Dragon 🐲</option>
+      <option value="dark">Dark 🌑</option>
+      <option value="steel">Steel ⚙️</option>
+      <option value="ghost">Ghost 👻</option>
+      <option value="fighting">Fighting 🥊</option>
+      <option value="flying">Flying 🕊️</option>
+    </select>
+
+    <button onclick="resetFilter()">Reset 🔄</button>
+  </div>
+
+  <p class="loading" id="loading">Loading Pokémon...</p>
+
+  <div id="pokemonList" class="grid"></div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button onclick="prevPage()">⬅ Prev</button>
+    <button onclick="nextPage()">Next ➡</button>
+  </div>
+
+</div>
+
+<script src="js/pokemon.js"></script>
+<script src="js/search.js"></script>
+
+</body>
+</html>
