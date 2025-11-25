@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* LIGHT THEME */
+:root {
+  --bg: #f5f6fa;
+  --text: #1c1d1f;
+  --card-bg: rgba(255,255,255,0.85);
+  --nav-bg: #3558A8;
+  --accent: #FFD600;
+  --accent-dark: #FFB800;
+}
+
+/* DARK THEME */
+.dark {
+  --bg: #1e1e1e;
+  --text: #ffffff;
+  --card-bg: rgba(40,40,40,0.8);
+  --nav-bg: #222;
+  --accent: #ffeb3b;
+  --accent-dark: #ffdd33;
+}
+
+/* GLOBAL */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: .4s;
+  overflow-x: hidden;
+}
+
+/* FLOATING POKEBALL */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 140px;
+  height: 140px;
+  background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png');
+  background-size: contain;
+  opacity: 0.15;
+  animation: float 14s infinite linear;
+  z-index:-1;
+}
+body::after {
+  right: -60px;
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+@keyframes float {
+  0% { transform: translateY(120vh) rotate(0deg); }
+  100% { transform: translateY(-20vh) rotate(360deg); }
+}
+
+/* NAVBAR */
+nav {
+  position: sticky;
+  top: 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background: var(--nav-bg);
+  padding: 12px 22px;
+  box-shadow:0 4px 18px rgba(0,0,0,.3);
+  z-index: 99;
+}
+
+nav .menu a {
+  color:#fff;
+  margin-right:22px;
+  text-decoration:none;
+  font-weight:600;
+  transition:.2s;
+}
+nav .menu a:hover {
+  color:var(--accent);
+  transform:scale(1.1);
+}
+
+/* DARK MODE BUTTON */
+#toggleDark {
+  background: var(--accent);
+  border:none;
+  padding:8px 18px;
+  font-weight:700;
+  border-radius:20px;
+  cursor:pointer;
+  transition:.3s;
+}
+#toggleDark:hover { background: var(--accent-dark); }
+
+/* CONTENT */
+.container {
+  padding:28px;
+  animation: fade .6s;
+}
+
+@keyframes fade {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* BUTTON */
+button {
+  background:var(--accent);
+  padding:12px 20px;
+  font-weight:bold;
+  border:none;
+  border-radius:15px;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover {
+  background:var(--accent-dark);
+  transform:scale(1.07);
+}
+
+/* CARD – kotak pendek, tengah, seperti screenshot */
+.card {
+  background: var(--card-bg);
+  width: 180px;
+  height: 180px;
+  padding: 20px;
+  border-radius: 22px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.25);
+}
+
+.card img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+  transition: 0.25s;
+}
+
+.card:hover img {
+  transform: scale(1.15);
+}
+
+.card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* SLIDER – rata tengah */
+#slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+/* GRID FACTS & GENERATIONS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+@media(max-width:600px) {
+  nav .menu a { margin-right:12px; font-size:14px; }
+}
+
+@media(max-width:600px) {
+  #slider {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+}
